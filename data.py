@@ -2,7 +2,7 @@ import MetaTrader5 as mt5
 import pandas as pd
 import pickle
 import os
-from indicators import *
+#IMPORT INDICATOR MODULE HERE
 from tqdm import tqdm
 
 def read_pickle(path):
@@ -22,41 +22,7 @@ def get_rates(symbol, n=1000, timeframe = mt5.TIMEFRAME_M1):
     return df
 
 def add_signals(df):
-    df['ema_3'] = EMA.ema(df['close'], 3)
-    df['ema_9'] = EMA.ema(df['close'], 9)
-    df['ema_12'] = EMA.ema(df['close'], 12)
-    df['ema_26'] = EMA.ema(df['close'], 26)
-    df['ema_50'] = EMA.ema(df['close'], 50)
-    df['size'] = EMA.cand_size(df['close'], df['open'])
-    df['roll_size'] = EMA.roll_size(df['size'])
-    
-    
-    df['rsi'] = VOL.rsi(df['close'])
-    df['atr'] = VOL.atr(df['high'],df['close'],df['low'])
-
-    df['stoch_k'] = VOL.stoch_k(df['low'],df['high'],df['close'])
-    df['stoch_d'] = VOL.stoch_d(df['stoch_k'])
-
-    df['adx'] = VOL.adx(df['high'], df['low'], df['close'], n = 14)
-
-    df['bb_std'] = BBANDS.std(df['close'])
-    df['middle'] = BBANDS.middle(df['close'])
-    df['upper'] = BBANDS.upper(df['bb_std'], df['middle'])
-    df['lower'] = BBANDS.lower(df['bb_std'], df['middle'])
-    df['width'] = BBANDS.width(df['upper'], df['lower'])
-
-
-    df['macd'] = MACD.macd(df['close'])
-    df['macd_signal'] = MACD.macd_signal(df['macd'])
-    df['macd_h'] = MACD.macd_histo(df['macd'], df['macd_signal'])
-    df['macd_std'] = MACD.std(df['macd'])
-
-    df['movement'] = ST.supertrend(df)
-    
-    df['donch_max'] = DONCH.high(df['high'])
-    df['donch_min'] = DONCH.low(df['low'])
-    df['donch_mid'] = DONCH.middle(df['high'], df['low'])
-
+    df['example indicator'] = #indicators.examples(df)
     return df
 
 def save_raw_data():
@@ -97,6 +63,6 @@ def offline_save_mod(new_path):
         df.to_csv(f'{new_path}{ticker}.csv')
     
 
-# mt5.initialize(path="C:/Program Files/MetaTrader 5/terminal64.exe", timeout=180000)
-# save_raw_data()
-# offline_save_mod('inplace_data/')
+mt5.initialize(path="C:/Program Files/MetaTrader 5/terminal64.exe", timeout=180000)
+save_raw_data()
+offline_save_mod('inplace_data/')
